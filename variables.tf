@@ -46,9 +46,10 @@ variable "default_naming_convention" {
 
 The following placeholders can be used in the naming conventions:
   - `$${location}` - The location of the resource.
+  - `$${location_geo_code}` - The geo code of the region. May be `null` if the region does not have a published geo code.
+  - `$${location_short_name}` - A calculated short name for the region, derived from the initials of the display name.
   - `$${sequence}` - A sequence number to ensure uniqueness.
-  - `$${geo_code}` - The geo code of the region. May be `null` if the region does not have a published geo code.
-  - `$${short_name}` - A calculated short name for the region, derived from the initials of the display name.
+
 DESCRIPTION
 }
 
