@@ -162,8 +162,10 @@ locals {
       # Revoked Certificates
       vpnClientRevokedCertificates = [
         for revoked_cert in var.vpn_point_to_site.revoked_certificates : {
-          name       = revoked_cert.name
-          thumbprint = revoked_cert.thumbprint
+          name = revoked_cert.name
+          properties = {
+            thumbprint = revoked_cert.thumbprint
+          }
         }
       ]
 
@@ -212,10 +214,12 @@ locals {
     for k, v in local.virtual_network_gateway_properties : k => v if v != null
   }
 }
+
 locals {
   resource_group_name  = provider::azapi::parse_resource_id("Microsoft.Resources/resourceGroups", var.parent_id).resource_group_name
   virtual_network_name = var.subnet_creation_enabled ? basename(var.virtual_network_id) : ""
 }
+
 locals {
   default_ip_configuration = {
     name                          = null
@@ -272,6 +276,7 @@ locals {
     )
   }
 }
+
 locals {
   express_route_circuit_virtual_network_gateway_connections = {
     for express_route_circuit_key, express_route_circuit in var.express_route_circuits : "erc-${express_route_circuit_key}" => merge(
@@ -293,6 +298,7 @@ locals {
     if local_network_gateway.connection != null
   }
 }
+
 locals {
   express_route_circuit_peerings = {
     for express_route_circuit_key, express_route_circuit in var.express_route_circuits : express_route_circuit_key => merge(
